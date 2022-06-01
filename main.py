@@ -17,10 +17,16 @@ def task():
         Type=clicked3.get()
 
         if Type=="Answers":
-            if month=="March":
-                link='https://corbettmaths.com/wp-content/uploads/2021/09/HP-Ans-'+month+'-'+day+'.pdf'
-            else:    
+            if month=="Dec":
+                link='https://corbettmaths.com/wp-content/uploads/2021/09/Higher-Plus-Ans-Dec_Part'+day+'.pdf'
+            elif month=="April" or month=="May":
                 link='https://corbettmaths.com/wp-content/uploads/2021/08/HP-Ans-'+month+'-'+day+'.pdf'
+            elif month=="March" or month=="June" or month=="July" or month=="Oct":
+                link="https://corbettmaths.com/wp-content/uploads/2021/09/HP-Ans-"+month+"-"+day+".pdf"
+            else:
+                link='https://corbettmaths.com/wp-content/uploads/2021/08/Higher-Plus-Ans-'+month+'_Part'+day+'.pdf'
+            
+
             webbrowser.open(link, new=2)
             print("In case a new tab did not open, here is the link: \n"+link)
 
@@ -68,7 +74,7 @@ drop2 = OptionMenu( root, clicked2, *options2 )
 drop2.place(x=140,y=1)
 drop3= OptionMenu ( root, clicked, *options )
 drop3.place(x=255,y=1)
-Button(root, text="Open PDF", font=("Times", 14), command=task).place(x=156,y=50)
+Button(root, text="Open PDF", font=("Times", 13), command=task).place(x=156,y=50)
 drop.config(width=12)
 drop2.config(width=12)
 drop3.config(width=12)
