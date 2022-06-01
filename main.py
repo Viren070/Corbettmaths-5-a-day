@@ -9,9 +9,9 @@ def close():
     else:
         show_text('Error','You must select a type, day and month!')
         return False
+
 def task():
-    close()
-    if close:
+    if close():
         month=clicked.get()
         day=clicked2.get()
         Type=clicked3.get()
@@ -27,14 +27,19 @@ def task():
                 link='https://corbettmaths.com/wp-content/uploads/2021/08/Higher-Plus-Ans-'+month+'_Part'+day+'.pdf'
             
 
-            webbrowser.open(link, new=2)
-            print("In case a new tab did not open, here is the link: \n"+link)
+
 
           
         elif Type=="Questions":
           link='https://corbettmaths.com/wp-content/uploads/2021/08/Higher-Plus-'+month+'_Part'+day+'.pdf'
-          webbrowser.open(link, new=2)
-          print("In case a new tab did not open, here is the link: \n"+link)
+    webbrowser.open(link, new=2)
+        
+    T["state"]=NORMAL
+    T.delete("1.0","end")
+    T.insert(0.0, "In case a new tab did not open, here is the link: \n\n"+link)
+    T["state"]=DISABLED
+         
+
 
         
 
@@ -78,6 +83,12 @@ Button(root, text="Open PDF", font=("Times", 13), command=task).place(x=156,y=50
 drop.config(width=12)
 drop2.config(width=12)
 drop3.config(width=12)
+
+T = Text(root, height = 4, width = 40)
+T.place(x=40,y=100)
+T.insert(0.0, "In case the PDF does not open, the link will appear here")
+T["state"]=DISABLED
+
 root.mainloop()
 
 
