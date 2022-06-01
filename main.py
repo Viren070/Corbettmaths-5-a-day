@@ -45,7 +45,7 @@ def task():
 
 root = Tk()
 root.title("Higher Plus 5-a-day")
-root.geometry( "400x200" )
+root.geometry( "400x220" )
 options = [
 	"Jan",
 	"Feb",
@@ -74,17 +74,17 @@ clicked2.set( "Select day" )
 clicked3.set( "Select type" )
 
 drop = OptionMenu( root , clicked3 , *options3 )
-drop.place(x=25,y=1)
+drop.place(x=25,y=5)
 drop2 = OptionMenu( root, clicked2, *options2 )
-drop2.place(x=140,y=1)
+drop2.place(x=140,y=5)
 drop3= OptionMenu ( root, clicked, *options )
-drop3.place(x=255,y=1)
+drop3.place(x=255,y=5)
 Button(root, text="Open PDF", font=("Times", 13), command=task).place(x=156,y=50)
 drop.config(width=12)
 drop2.config(width=12)
 drop3.config(width=12)
 
-T = Text(root, height = 4, width = 40)
+T = Text(root, height = 6, width = 40)
 T.place(x=40,y=100)
 T.insert(0.0, "In case the PDF does not open, the link will appear here")
 T["state"]=DISABLED
