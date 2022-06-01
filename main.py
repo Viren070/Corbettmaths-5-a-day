@@ -35,6 +35,7 @@ def hideLink():
     root.geometry("400x100")  #adjusts window dimensions
     T = Text(root, height = 2, width = 46)  #redefines T (text box widget) for future placement 
     linkState=False #changes to False, so next time it will show the link
+    ToggleLinkButton.config(text="Show Link")
         
 def showLink():
     global linkState
@@ -49,6 +50,7 @@ def showLink():
     T.insert(0.0, link)
     T["state"]=DISABLED
     linkState=True  #changes to True so next time, it hides the link
+    ToggleLinkButton.config(text="Hide Link")
 
 def toggleLink():
     global linkState
@@ -104,7 +106,8 @@ months.config(width=12)
 months.place(x=260,y=5)
 
 Button(root, text="Open PDF", font=("Times", 12), width=12, command=loadPDF).place(x=90,y=50)
-Button(root, text="Show/Hide link", font=("Times", 12), width=12, command=toggleLink).place(x=210,y=50)
+ToggleLinkButton=Button(root, text="Show Link", font=("Times", 12), width=12, command=toggleLink)
+ToggleLinkButton.place(x=210,y=50)
 
 
 
