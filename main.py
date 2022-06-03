@@ -1,7 +1,7 @@
 import webbrowser
 from tkinter import *
 from tkinter import messagebox
-linkState=False
+
 def validate():   #checks if there are any options that haven't been changed
 
     if clicked.get()!="Select month" and clicked2.get()!="Select day" and clicked3.get()!="Select type":
@@ -28,24 +28,31 @@ def getLink():
               link='https://corbettmaths.com/wp-content/uploads/2021/08/Higher-Plus-'+month+'_Part'+day+'.pdf'
         return link   #returns the link
 
-
 def copyLink():
+    global link
     if validate():
-        link=getLink()
-        root.clipboard_clear()
-        root.clipboard_append(link)
+        link=getLink() #stores the link received from getLink() in a variable 
+        root.clipboard_clear() #clears the clipboard
+        root.clipboard_append(link) #adds the link to the clipboard
         root.update() # now it stays on the clipboard after the window is closed
         copyLinkButton.config(text="Copied!")
-   
-    
-                          
+        run_periodically(linkCheck)
+
 def loadPDF():
     if validate():  #ensures all inputs are given
         link=getLink()   #gets the link
-        webbrowser.open(link, new=2)  #loads the link on a new tab 
+        webbrowser.open(link, new=2)  #loads the link on a new tab
+
+def linkCheck():
+    if root.clipboard_get()!=link: #checks if the clipboard has changed 
+        copyLinkButton.config(text="Copy Link") #if it has then, changes text to Copy Link
+
+def run_periodically(func):  #function to run a function periodically 
+    func() #runs the function
+    root.after(1000, run_periodically, func) #after 1000ms it runs this function and the function to run creating a loop
     
 def callback(*args):
-    copyLinkButton.config(text="Copy Link")  #hides the link being shown when a selected input is changed
+    copyLinkButton.config(text="Copy Link")  #changes text from Copied to copy link
     
 root=Tk()
 
@@ -72,7 +79,7 @@ clicked.trace("w", callback)    #
 clicked2.trace("w", callback)   #when a change is detected in the variable, runs the callback function
 clicked3.trace("w", callback)   #
 
-#creating the dropdown menus and placing them in set coordinates
+#creating the dropdown menus and packing them into frames
 top=Frame(root)
 top.pack(side=TOP)
 top2=Frame(root)
@@ -96,26 +103,3 @@ loadPDFButton.pack(in_=top2, side=LEFT)
 copyLinkButton.pack(in_=top2, side=LEFT)
 
 root.mainloop()
-
-
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
