@@ -28,44 +28,24 @@ def getLink():
               link='https://corbettmaths.com/wp-content/uploads/2021/08/Higher-Plus-'+month+'_Part'+day+'.pdf'
         return link   #returns the link
 
-def hideLink():
-        root.geometry("400x100")
-        global linkState
-        global T
-        T["state"]=NORMAL
-        T.delete("1.0","end")
-        T["state"]=DISABLED
-        
-        linkState=False #changes to False, so next time it will show the link
-        ToggleLinkButton.config(text="Show Link")
-            
-def showLink():
-        global linkState
-        global T
-        
-        link=getLink()  #gets the link with getLink() function
-        T["state"]=NORMAL   #changing state to insert link into text box
-        T.delete("1.0","end")
-        root.geometry( "400x180" )
-        T.insert(0.0, link)
-        T["state"]=DISABLED
-        linkState=True  #changes to True so next time, it hides the link
-        ToggleLinkButton.config(text="Hide Link")
 
-def toggleLink():
-    if validate():  #if all inputs given then...
-        if linkState: #this checks if a link is being shown currently. If True then...
-            hideLink()   #...runs hideLink function which removes the link...
-        else:      #...but if there is no link, then it runs the showLink function which shows the link based on given inputs
-            showLink()  
-            
+def copyLink():
+    if validate():
+        link=getLink()
+        root.clipboard_clear()
+        root.clipboard_append(link)
+        root.update() # now it stays on the clipboard after the window is closed
+        copyLinkButton.config(text="Copied!")
+   
+    
+                          
 def loadPDF():
     if validate():  #ensures all inputs are given
         link=getLink()   #gets the link
         webbrowser.open(link, new=2)  #loads the link on a new tab 
     
 def callback(*args):
-    hideLink()  #hides the link being shown when a selected input is changed
+    copyLinkButton.config(text="Copy Link")  #hides the link being shown when a selected input is changed
     
 root=Tk()
 
@@ -97,26 +77,23 @@ top=Frame(root)
 top.pack(side=TOP)
 top2=Frame(root)
 top2.pack(side=TOP,ipady=20)
+
 pdfTypes = OptionMenu( root , clicked3 , *pdfTypeList )
 pdfTypes.config(width=12)
-pdfTypes.pack(in_=top, side=LEFT)
 days = OptionMenu( root, clicked2, *dayList ) 
 days.config(width=12)
-days.pack(in_=top, side=LEFT)
 months= OptionMenu ( root, clicked, *monthList )
 months.config(width=12)
+
+pdfTypes.pack(in_=top, side=LEFT)
+days.pack(in_=top, side=LEFT)
 months.pack(in_=top, side=LEFT)
 
 loadPDFButton=Button(root, text="Open PDF", font=("Times", 12), width=12, command=loadPDF)
+copyLinkButton=Button(root, text="Copy Link", font=("Times", 12), width=12, command=copyLink)
+
 loadPDFButton.pack(in_=top2, side=LEFT)
-ToggleLinkButton=Button(root, text="Show Link", font=("Times", 12), width=12, command=toggleLink)
-ToggleLinkButton.pack(in_=top2, side=LEFT)
-
-T = Text(root, height = 2, width = 46)
-T["state"]=DISABLED   #makes it so nothing can be written into the text box 
-T.pack() #places text widget
-
-
+copyLinkButton.pack(in_=top2, side=LEFT)
 
 root.mainloop()
 
