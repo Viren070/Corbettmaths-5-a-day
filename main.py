@@ -1,11 +1,13 @@
 import webbrowser
 from tkinter import *
 from tkinter import messagebox
-
 def validate():   #checks if there are any options that haven't been changed
 
     if clicked.get()!="Select month" and clicked2.get()!="Select day" and clicked3.get()!="Select type":
-        return True   #if an option has been selected for each dropdown menu, it returns True. Otherwise it...
+        if (clicked.get()=="Feb" and int(clicked2.get()) > 29) or ((clicked.get()=="April" or clicked.get()=="June" or clicked.get() =="Sept" or clicked.get()=="Nov") and int(clicked2.get())>30):
+            messagebox.showerror('Warning!', 'This day does not exist')
+        else:
+            return True   #if an option has been selected for each dropdown menu, it returns True. Otherwise it...
     else:    #...displays an error message and returns False 
         messagebox.showerror('Error','You must select a type, day and month first!')
         return False
@@ -53,7 +55,7 @@ def run_periodically(func):  #function to run a function periodically
     
 def callback(*args):
     copyLinkButton.config(text="Copy Link")  #changes text from Copied to copy link
-    
+
 root=Tk()
 
 root.title("Higher Plus 5-a-day")
@@ -62,7 +64,6 @@ root.iconbitmap(r"C:\Users\viren\OneDrive\Desktop\Screenshot (2).ico")
 root.resizable(False,False)   #makes the window un-resizable
 
 #making lists with options for dropdown menus 
-
 monthList = ["Jan", "Feb","March","April","May","June","July","Aug","Sept","Oct","Nov","Dec"]
 dayList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31']
 pdfTypeList= ["Questions","Answers"]
