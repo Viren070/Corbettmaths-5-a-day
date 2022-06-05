@@ -113,7 +113,7 @@ def callback(*args):
 
 IconPath=os.getcwd()+"/icon.ico"
 
-url="https://raw.githubusercontent.com/Viren070/Higher-Plus-5-a-day-PDF-loader/main/icon.ico"
+url='https://raw.githubusercontent.com/Viren070/Corbettmaths-5-a-day/main/icon.ico'
 
 file_exists = os.path.exists('icon.ico')
 
