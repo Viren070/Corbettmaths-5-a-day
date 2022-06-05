@@ -21,13 +21,13 @@ def help():
 def credits():
     messagebox.showinfo("Credits","All questions and answers are from corbettmaths, I have only made a program to access these questions and answers.\nMade by Viren070 on Github.")
 def validate():   #checks if there are any options that haven't been changed
-    if clicked.get()!="Select month" and clicked2.get()!="Select day" and clicked3.get()!="Select type" and clicked4.get()!="Select Level":
+    if clicked.get()!="Select month" and clicked2.get()!="Select day" and clicked3.get()!="Select type" and clicked4.get()!="Select difficulty":
         if (clicked.get()=="Feb" and int(clicked2.get()) > 29) or ((clicked.get()=="April" or clicked.get()=="June" or clicked.get() =="Sept" or clicked.get()=="Nov") and int(clicked2.get())>30):
             messagebox.showerror('Error', 'This day does not exist')
         else:
             return True   #if an option has been selected for each dropdown menu, it returns True. Otherwise it...
     else:    #...displays an error message and returns False 
-        messagebox.showerror('Error','You must select a type, day and month first!')
+        messagebox.showerror('Error','You must select a difficulty, type, day and month first!')
         return False
 
 def getLink():
