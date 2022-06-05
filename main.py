@@ -1,11 +1,15 @@
-import webbrowser
 from tkinter import *
 from tkinter import messagebox
+import webbrowser
+import os
+import requests
+import shutil
+
 def validate():   #checks if there are any options that haven't been changed
 
     if clicked.get()!="Select month" and clicked2.get()!="Select day" and clicked3.get()!="Select type":
         if (clicked.get()=="Feb" and int(clicked2.get()) > 29) or ((clicked.get()=="April" or clicked.get()=="June" or clicked.get() =="Sept" or clicked.get()=="Nov") and int(clicked2.get())>30):
-            messagebox.showerror('Warning!', 'This day does not exist')
+            messagebox.showerror('Error', 'This day does not exist')
         else:
             return True   #if an option has been selected for each dropdown menu, it returns True. Otherwise it...
     else:    #...displays an error message and returns False 
@@ -56,11 +60,34 @@ def run_periodically(func):  #function to run a function periodically
 def callback(*args):
     copyLinkButton.config(text="Copy Link")  #changes text from Copied to copy link
 
-root=Tk()
+IconPath=os.getcwd()+"/icon.ico"
 
+url="https://raw.githubusercontent.com/Viren070/Higher-Plus-5-a-day-PDF-loader/main/icon.ico"
+
+file_exists = os.path.exists('icon.ico')
+
+if not file_exists:
+    messagebox.showinfo("File missing","'icon.ico' file missing, downloading now")
+    res = requests.get(url, stream = True)
+    if res.status_code == 200:
+        with open('icon.ico','wb') as f:
+            shutil.copyfileobj(res.raw, f)
+        messagebox.showinfo('Success!','Image sucessfully Downloaded:')
+    else:
+        messagebox.showerror('Error','Image Couldn\'t be retrieved')   
+
+
+root=Tk()
 root.title("Higher Plus 5-a-day")
 root.geometry( "400x100" )
-root.iconbitmap(r"C:\Users\viren\OneDrive\Desktop\Screenshot (2).ico")
+try:
+    root.iconbitmap(IconPath)
+except TclError:
+    messagebox.showerror("Error","'icon.ico' file missing")
+
+
+ 
+
 root.resizable(False,False)   #makes the window un-resizable
 
 #making lists with options for dropdown menus 
