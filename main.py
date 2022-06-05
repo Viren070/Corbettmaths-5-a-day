@@ -111,7 +111,7 @@ def callback(*args):
         
    
 
-IconPath=os.getcwd()+"/icon.ico"
+
 
 url='https://raw.githubusercontent.com/Viren070/Corbettmaths-5-a-day/main/icon.ico'
 
@@ -132,7 +132,7 @@ root=Tk()
 root.title("Corbettmaths 5-a-day")
 root.geometry( "400x150" )
 try:
-    root.iconbitmap(IconPath)
+    root.iconbitmap('icon.ico')
 except TclError:
     messagebox.showerror("Error","'icon.ico' file missing")
 
