@@ -1,5 +1,5 @@
-# Higher-Plus-5-a-day-PDF-loader
-Opens the pdf page for the Corbettmaths Higher Plus 5-a-day with selectable dates.
+# Corbettmaths 5 a day
+Opens the pdf page for the Corbettmaths 5-a-day with selectable dates.
 
 I was bored and made this.
 ### **Instructions to use**:
