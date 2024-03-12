@@ -5,7 +5,11 @@ from os.path import exists
 import webbrowser
 import os
 import requests
+from bs4 import BeautifulSoup
+import re
+import json
 import shutil
+from generate_dict import create_dict
 paperState=False
 fiveState=False
 PREFERENCE=None
@@ -216,46 +220,16 @@ def FiveGetLink():
         day=clicked2.get()     #receives selected inputs in dropdown menus
         pdfType=clicked3.get()
         difficulty=clicked4.get()
-        
-        if difficulty=="Higher Plus":
-            if pdfType=="Answers":  #adjusts link format according to month and inserts given inputs into the format
-                if month=="Dec":
-                    link='https://corbettmaths.com/wp-content/uploads/2021/09/Higher-Plus-Ans-Dec_Part'+day+'.pdf'
-                elif month=="April" or month=="May":
-                    link='https://corbettmaths.com/wp-content/uploads/2021/08/HP-Ans-'+month+'-'+day+'.pdf'
-                elif month=="March" or month=="June" or month=="July" or month=="Oct":
-                    link="https://corbettmaths.com/wp-content/uploads/2021/09/HP-Ans-"+month+"-"+day+".pdf"
-                else:
-                    link='https://corbettmaths.com/wp-content/uploads/2021/08/Higher-Plus-Ans-'+month+'_Part'+day+'.pdf'
-            elif pdfType=="Questions":
-                  link='https://corbettmaths.com/wp-content/uploads/2021/08/Higher-Plus-'+month+'_Part'+day+'.pdf'
-
-        elif difficulty=="Higher":
-            if pdfType=="Questions":
-                link='https://corbettmaths.com/wp-content/uploads/2021/08/Higher-'+month+'_Part'+day+'.pdf'
-            elif pdfType=="Answers":
-                link='https://corbettmaths.com/wp-content/uploads/2021/08/Higher-Ans-'+month+'_Part'+day+'.pdf'
-
-        elif difficulty=="Foundation Plus":
-            if pdfType=="Questions":
-                link='https://corbettmaths.com/wp-content/uploads/2021/07/'+month+'-FP_Part'+day+'.pdf'
-            elif pdfType=="Answers":
-                if month=="Jan":
-                    link='https://corbettmaths.com/wp-content/uploads/2022/01/Jan-FP-Answers.pdf#page='+day
-                elif month=="December":
-                    link='https://corbettmaths.com/wp-content/uploads/2021/08/FP-Ans-Dec.pdf#page='+day
-                elif month=="March":
-                    link='https://corbettmaths.com/wp-content/uploads/2021/07/March-FP-Ans.pdf#page='+day
-                elif month=="Feb" or month=="April" or month=="May" or month=="June":
-                    link='https://corbettmaths.com/wp-content/uploads/2021/07/'+month+'-FP-Answers.pdf#page='+day
-                else:
-                    link='https://corbettmaths.com/wp-content/uploads/2021/08/Nov-FP-Ans.pdf#page='+day
-
-        elif difficulty=="Foundation":
-            link=None
-        elif difficulty=="Numeracy":
-            link=None
-        return link   #returns the link
+        if not os.path.exists("corbettmaths.json"):
+            create_dict()
+        with open("corbettmaths.json", "r") as f:
+            page_dict = json.load(f)
+        if pdfType=="Questions":
+            url = page_dict[month]["Questions"][day][difficulty]#
+        else:
+            url = page_dict[month]["Answers"][difficulty] + "#page=" + day  
+            
+        return url
 
 def FiveCopyLink():
     if FiveValidate():
@@ -286,9 +260,7 @@ def run_periodically(func):  #function to run a function periodically
     
 def FiveCallback(*args):
     copyLinkButton.config(text="Copy Link")  #changes text from Copied to copy link
-    if (clicked4.get()!="Select difficulty") and ((not (clicked4.get()=="Higher" or clicked4.get()=="Higher Plus" or clicked4.get()=="Foundation Plus"))):
-        clicked4.set("Select difficulty")
-        messagebox.showinfo("Feature coming soon","Only Higher Plus, Higher, and Foundation Plus are supported currently")
+
 def topmost():
     root.attributes('-topmost', True)
     root.update()
@@ -627,7 +599,7 @@ topframe.pack(side=LEFT)
 
 
 #making lists with options for dropdown menus 
-monthList = ["Jan", "Feb","March","April","May","June","July","Aug","Sept","Oct","Nov","Dec"]
+monthList = ["Jan", "Feb","Mar","Apr","May","Jun","Jul","Aug","Sept","Oct","Nov","Dec"]
 dayList = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31']
 pdfTypeList= ["Questions","Answers"]
 difficultyList=["Numeracy","Foundation","Foundation Plus","Higher","Higher Plus"]
